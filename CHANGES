@@ -11,3 +11,27 @@ Clean codes according to pep8.
 ## Version 0.1
 
 First public preview release.
+
+2014-7-18
+    原来的app.wsgi应该是apache+mod_wsgi的部署模式。 因为我们团队主要使用nginx,我研究了下用uWSGI来部署。
+    uwsgi -s :3031 -t 30 -M -p 4 --limit-as 256 -R 10000 -w manage:app -H /home/bud/.pyenv/versions/FlaskEnv
+    原来用 --limit-as 128 导致程序一直加载失败，而我又不明白为什么，还以为是方法有误。 直到用xml文件成功了然后一项一项对比才发现
+    这个参数在现在项目下会出错
+    
+    增加了fbone.xml文件，加载: uwsgi -x fbone.xml
+    另外一个相关的配置文件是：
+    $ cat /etc/nginx/conf.d/testflask.conf   
+        server {
+            listen  80;
+            server_name  testflask.upidea.com;
+            # access_log  /var/log/nginx/admin.dev.upidea.com_access.log main;
+    
+            location / {
+                include uwsgi_params;
+    #            uwsgi_param UWSGI_FILE    /home/bud/py/fbone/uwsgi.py;
+                uwsgi_param UWSGI_PYHOME  /home/bud/.pyenv/versions/FlaskEnv;
+                uwsgi_pass   127.0.0.1:3031;
+            }
+        }
+
+    
