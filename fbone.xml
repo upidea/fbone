@@ -1,0 +1,20 @@
+<uwsgi>
+    <pythonpath>/home/bud/.pyenv/versions/FlaskEnv</pythonpath>
+    <module>manage</module>
+    <callable>app</callable>
+    <enable-threads/>
+    <socket>0.0.0.0:3031</socket>
+    <master/>
+    <processes>4</processes>
+    <memory-report/>
+    <disable-logging/>
+    <buffer-size>16384</buffer-size>
+    <harakiri>30</harakiri>
+    <max-requests>10000</max-requests>
+    <socket-timeout>30</socket-timeout>
+
+    <chdir>/home/bud/py/fbone</chdir>
+    <daemonize>/home/bud/py/fbone/run/uwsgi.log</daemonize>
+    <pidfile>/home/bud/py/fbone/run/uwsgi.pid</pidfile>
+</uwsgi>
+ 
